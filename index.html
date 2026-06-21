@@ -159,6 +159,83 @@ body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-s
 .t5 .margin-note{background:var(--c5s);color:#561B33;border-color:var(--c5);}
 .t6 .margin-note{background:var(--c6s);color:#293D08;border-color:var(--c6);}
 
+/* ===== TEAM SECTION ===== */
+.team-section{
+  background:linear-gradient(135deg,#1a1040 0%,#16233a 50%,#1a1040 100%);
+  color:#FAF6EC;padding:4rem 2rem 4.5rem;position:relative;overflow:hidden;
+}
+.team-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 80% 50%,rgba(91,79,207,.18) 0%,transparent 65%),
+             radial-gradient(ellipse 50% 50% at 10% 80%,rgba(15,110,86,.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.team-inner{max-width:880px;margin:0 auto;position:relative;}
+.team-meta{
+  display:flex;flex-wrap:wrap;align-items:center;gap:1rem;
+  margin-bottom:2.8rem;
+}
+.team-logo{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:600;letter-spacing:.02em;
+  color:rgba(250,246,236,.9);
+}
+.team-logo svg{opacity:.85;}
+.team-divider{width:1px;height:28px;background:rgba(255,255,255,.15);}
+.team-course{font-size:12px;color:rgba(250,246,236,.45);letter-spacing:.05em;line-height:1.6;}
+.team-course strong{color:rgba(250,246,236,.75);font-weight:600;}
+.team-nrc{
+  margin-left:auto;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;padding:5px 16px;font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(250,246,236,.5);
+}
+.team-heading{
+  font-family:'Fraunces',serif;font-size:clamp(1.2rem,3vw,1.6rem);font-weight:300;
+  color:rgba(250,246,236,.5);margin-bottom:1.4rem;letter-spacing:-.01em;
+}
+.team-heading em{font-style:italic;color:rgba(250,246,236,.85);}
+.team-cards{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:1rem;
+}
+.member-card{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:1.3rem 1rem 1.1rem;text-align:center;
+  transition:.25s;cursor:default;position:relative;overflow:hidden;
+}
+.member-card::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:var(--mc,rgba(91,79,207,.15));opacity:0;transition:.25s;
+}
+.member-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.22);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+.member-card:hover::before{opacity:1;}
+.member-avatar{
+  width:60px;height:60px;border-radius:50%;margin:0 auto .8rem;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);
+  position:relative;
+}
+.member-name{
+  font-size:13px;font-weight:600;color:rgba(250,246,236,.95);
+  line-height:1.3;margin-bottom:.3rem;
+}
+.member-role{font-size:11px;color:rgba(250,246,236,.38);letter-spacing:.04em;}
+.teacher-card{
+  margin-top:1.4rem;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+  border-radius:16px;padding:1.2rem 1.6rem;
+  display:flex;align-items:center;gap:1.2rem;
+}
+.teacher-avatar{
+  width:52px;height:52px;border-radius:50%;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  background:rgba(91,79,207,.2);border:1.5px solid rgba(91,79,207,.4);
+}
+.teacher-info{}
+.teacher-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:rgba(250,246,236,.35);margin-bottom:.3rem;}
+.teacher-name{font-size:15px;font-weight:600;color:rgba(250,246,236,.9);}
+.teacher-sub{font-size:12px;color:rgba(250,246,236,.4);margin-top:.2rem;}
+
 /* ===== CLOSING ===== */
 .closing{max-width:740px;margin:0 auto;padding:2rem 2rem 6rem;}
 .closing-card{background:var(--ink);color:var(--paper);border-radius:28px;padding:4rem 3rem;position:relative;overflow:hidden;text-align:center;}
@@ -207,8 +284,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-s
   <p class="hero-lede">El sendero que recorrimos cinco estudiantes — sin conocernos casi nada — para convertir el cansancio compartido de toda una facultad en una pausa de diez minutos.</p>
 
   <div class="hero-crew">
-    <span class="crew-tag">🎓 Derecho x4</span>
+    <span class="crew-tag">🎓 Pedagogía</span>
+    <span class="crew-tag">🧠 Psicología</span>
     <span class="crew-tag">⚙️ Ingeniería</span>
+    <span class="crew-tag">✏️ Diseño ×2</span>
   </div>
 
   <div class="scroll-hint">
@@ -221,6 +300,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-s
 <div class="stats">
   <div class="stat"><span class="stat-n">5</span><span class="stat-l">Estudiantes</span></div>
   <div class="stat"><span class="stat-n">7</span><span class="stat-l">Etapas DT</span></div>
+  <div class="stat"><span class="stat-n">35+</span><span class="stat-l">Testeado con</span></div>
   <div class="stat"><span class="stat-n">10'</span><span class="stat-l">La pausa</span></div>
 </div>
 
@@ -243,9 +323,9 @@ body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-s
       </div>
       <div class="team-nrc">NRC 32102</div>
     </div>
- 
+
     <div class="team-heading">El equipo detrás de <em>Minutos de Bienestar UC</em></div>
- 
+
     <div class="team-cards">
       <div class="member-card" style="--mc:rgba(91,79,207,.2)">
         <div class="member-avatar">👨‍🎓</div>
@@ -273,7 +353,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-s
         <div class="member-role">Integrante</div>
       </div>
     </div>
- 
+
     <div class="teacher-card">
       <div class="teacher-avatar">🎓</div>
       <div class="teacher-info">
@@ -360,7 +440,7 @@ const stages = [
       {color:"green",rot:"4deg",emoji:"🤝",text:"Crear confianza primero"},
       {color:"orange",rot:"-3deg",emoji:"💬",text:'"¿Tú también duermes mal?"'},
     ],
-    body:`<p>El día que se formaron los grupos, ninguno de nosotros se conocía. Éramos cinco estudiantes con perspectivas distintas: cuatro de derecho y uno de Ingeniería. Al principio, la sala de clases parecía un mar de miradas incómodas.</p>
+    body:`<p>El día que se formaron los grupos, ninguno de nosotros se conocía. Éramos cinco estudiantes con perspectivas distintas: alguien de Pedagogía, otra de Psicología, uno de Ingeniería y dos de Diseño. Al principio, la sala de clases parecía un mar de miradas incómodas.</p>
 <p>Las primeras conversaciones fueron torpes. ¿Quién lideraba? ¿Qué rol tomaba cada uno? Intentamos hacer una lluvia de ideas sin estructura y terminamos con cuatro conversaciones paralelas y ninguna conclusión.</p>
 <p>Pero en el camino de regreso, alguien dijo algo que cambió todo: <strong>todos habíamos sentido el peso del estrés académico</strong>. Esa incomodidad compartida se convirtió en nuestra brújula.</p>`,
     quote:`"¿Tú también duermes mal en época de pruebas?"`,
