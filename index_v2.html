@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minutos de Bienestar UC — El Sendero</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Source+Sans+3:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF6EC; --paper2:#F0E8D0; --ink:#2B2620; --ink2:#5B5448; --ink3:#8C8270; --line:#D8CDB4;
+  --c0:#5B4FCF; --c0s:#ECE9FB; --c0m:#8077E0;
+  --c1:#0F6E56; --c1s:#E3F2EC; --c1m:#1A9972;
+  --c2:#1D5FA0; --c2s:#E5EFF8; --c2m:#2E78C4;
+  --c3:#B8771A; --c3s:#FAEFDC; --c3m:#D4912A;
+  --c4:#A04223; --c4s:#FAEAE2; --c4m:#C4582E;
+  --c5:#8C2F54; --c5s:#F8E9EF; --c5m:#B33F6E;
+  --c6:#42600F; --c6s:#EBF1DD; --c6m:#5C8A1A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#1a1040 0%,#2B2620 40%,#1a0f08 100%);
+  color:#FAF6EC;
+}
+.hero-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.hero-star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);}
+@keyframes twinkle{0%,100%{opacity:.1;transform:scale(1);}50%{opacity:.9;transform:scale(1.4);}}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbDrift 8s ease-in-out infinite alternate;}
+@keyframes orbDrift{from{transform:translate(0,0);}to{transform:translate(30px,20px);}}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 20px 7px 12px;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,246,236,.6);
+  margin-bottom:2.5rem;backdrop-filter:blur(8px);
+}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:#F0A96A;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.6);}}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(3rem,9vw,6.5rem);font-weight:500;line-height:.95;letter-spacing:-.03em;margin-bottom:1.8rem;max-width:750px;}
+.hero h1 em{font-style:italic;color:#F0A96A;display:block;}
+.hero h1 .sub{font-size:.5em;letter-spacing:0;background:linear-gradient(90deg,#9B8EFF,#6DC8A0,#F07E9B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;}
+.hero-lede{font-size:clamp(15px,2.2vw,18px);color:rgba(250,246,236,.65);line-height:1.75;max-width:520px;margin-bottom:2.5rem;font-weight:300;}
+.hero-crew{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-bottom:4rem;}
+.crew-tag{font-size:12.5px;color:rgba(250,246,236,.7);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:7px 16px;background:rgba(255,255,255,.06);backdrop-filter:blur(4px);transition:.2s;}
+.crew-tag:hover{background:rgba(255,255,255,.15);transform:translateY(-2px);}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);color:rgba(250,246,236,.35);font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 2.4s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+
+/* ===== STATS ===== */
+.stats{display:flex;justify-content:center;background:#2B2620;color:var(--paper);}
+.stat{flex:1;max-width:200px;padding:2.2rem 1.2rem;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'Fraunces',serif;font-size:3rem;font-weight:500;line-height:1;display:block;margin-bottom:.3rem;}
+.stat-l{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;opacity:.4;}
+.stat:nth-child(1) .stat-n{color:#9B8EFF;}.stat:nth-child(2) .stat-n{color:#6DC8A0;}
+.stat:nth-child(3) .stat-n{color:#F0A96A;}.stat:nth-child(4) .stat-n{color:#F07E9B;}
+
+/* ===== TRAILBAR ===== */
+.trailbar{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);box-shadow:0 2px 20px rgba(0,0,0,.06);}
+.trailbar-inner{max-width:940px;margin:0 auto;padding:.8rem 1.5rem;display:flex;align-items:center;gap:.3rem;overflow-x:auto;scrollbar-width:none;}
+.trailbar-inner::-webkit-scrollbar{display:none;}
+.tstep{flex:0 0 auto;display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink3);padding:5px 11px 5px 8px;border-radius:20px;border:1.5px solid transparent;cursor:pointer;background:none;white-space:nowrap;transition:.18s;font-family:inherit;}
+.tstep .dot{width:6px;height:6px;border-radius:50%;background:var(--line);transition:.18s;flex:0 0 auto;}
+.tstep.active{color:var(--ink);font-weight:600;border-color:currentColor;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.tstep.active .dot{background:currentColor;width:7px;height:7px;}
+.tstep.t0.active{color:var(--c0);}.tstep.t1.active{color:var(--c1);}.tstep.t2.active{color:var(--c2);}
+.tstep.t3.active{color:var(--c3);}.tstep.t4.active{color:var(--c4);}.tstep.t5.active{color:var(--c5);}.tstep.t6.active{color:var(--c6);}
+.tconn{width:14px;height:1px;background:var(--line);flex:0 0 auto;}
+
+/* ===== TRAIL ===== */
+.trail{max-width:820px;margin:0 auto;padding:2rem 1.75rem 6rem;position:relative;}
+.spine{position:absolute;left:40px;top:0;bottom:0;width:2px;background:repeating-linear-gradient(to bottom,var(--line) 0,var(--line) 6px,transparent 6px,transparent 13px);}
+@media(max-width:600px){.spine{left:22px;}}
+
+/* ===== STOP ===== */
+.stop{position:relative;padding-left:100px;margin-bottom:0;scroll-margin-top:90px;}
+@media(max-width:600px){.stop{padding-left:58px;}}
+.stop-inner{padding-bottom:5rem;}
+.stop-marker{position:absolute;left:0;top:0;width:82px;height:82px;border-radius:50%;border:2.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:30px;z-index:2;box-shadow:0 6px 24px rgba(0,0,0,.1);transition:.3s;background:var(--paper);}
+.stop:hover .stop-marker{transform:scale(1.08) rotate(-5deg);}
+@media(max-width:600px){.stop-marker{width:46px;height:46px;font-size:18px;}}
+.t0 .stop-marker{border-color:var(--c0);background:var(--c0s);}
+.t1 .stop-marker{border-color:var(--c1);background:var(--c1s);}
+.t2 .stop-marker{border-color:var(--c2);background:var(--c2s);}
+.t3 .stop-marker{border-color:var(--c3);background:var(--c3s);}
+.t4 .stop-marker{border-color:var(--c4);background:var(--c4s);}
+.t5 .stop-marker{border-color:var(--c5);background:var(--c5s);}
+.t6 .stop-marker{border-color:var(--c6);background:var(--c6s);}
+.stop-eyebrow{display:flex;align-items:baseline;gap:10px;margin-bottom:.5rem;padding-top:.8rem;}
+.stop-num{font-family:'Fraunces',serif;font-style:italic;font-size:13px;color:var(--ink3);}
+.stop-tag{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;}
+.t0 .stop-tag{color:var(--c0);}.t1 .stop-tag{color:var(--c1);}.t2 .stop-tag{color:var(--c2);}
+.t3 .stop-tag{color:var(--c3);}.t4 .stop-tag{color:var(--c4);}.t5 .stop-tag{color:var(--c5);}.t6 .stop-tag{color:var(--c6);}
+.stop-title{font-family:'Fraunces',serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:500;margin-bottom:1.4rem;line-height:1.12;}
+
+/* ===== SKETCH CARDS ===== */
+.sketch-area{margin-bottom:1.6rem;}
+.sketch-card{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 6px 28px rgba(0,0,0,.09);background:#fff;}
+.sketch-card svg{display:block;width:100%;height:auto;}
+
+/* ===== POSTIT CLUSTER ===== */
+.postit-cluster{
+  position:relative;min-height:220px;margin:1.6rem 0;
+  display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;
+}
+.postit{
+  position:relative;padding:1rem 1.1rem 1.1rem;border-radius:3px;
+  font-family:'Caveat',cursive;font-size:16px;line-height:1.4;
+  box-shadow:3px 4px 14px rgba(0,0,0,.14);
+  flex:0 0 auto;max-width:160px;
+  transition:.2s;cursor:default;
+}
+.postit::after{content:'';position:absolute;bottom:0;right:0;width:18px;height:18px;background:rgba(0,0,0,.06);clip-path:polygon(100% 0,100% 100%,0 100%);}
+.postit:hover{transform:rotate(0deg) scale(1.06) translateY(-4px);box-shadow:5px 8px 20px rgba(0,0,0,.2);z-index:5;}
+.postit.yellow{background:#FFF176;color:#4A3C00;transform:rotate(-3deg);}
+.postit.pink{background:#FF8FAB;color:#5C001E;transform:rotate(2deg);}
+.postit.blue{background:#80DEEA;color:#003F47;transform:rotate(-1.5deg);}
+.postit.green{background:#A5D6A7;color:#1B4A1D;transform:rotate(3deg);}
+.postit.orange{background:#FFCC80;color:#4A2800;transform:rotate(-2deg);}
+.postit.lavender{background:#CE93D8;color:#3B0050;transform:rotate(1.5deg);}
+.postit.red{background:#EF9A9A;color:#4A0000;transform:rotate(-3.5deg);}
+.postit.lime{background:#E6EE9C;color:#2E3400;transform:rotate(2.5deg);}
+.postit .postit-emoji{font-size:22px;display:block;margin-bottom:.3rem;}
+
+/* ===== QUOTE ===== */
+.blockquote{
+  font-family:'Caveat',cursive;font-size:clamp(22px,3vw,30px);font-weight:600;
+  line-height:1.3;margin:1.6rem 0;padding:1.2rem 1.6rem;
+  border-left:4px solid;border-radius:0 14px 14px 0;position:relative;overflow:hidden;
+}
+.blockquote::before{content:'"';position:absolute;left:.4rem;top:-.6rem;font-size:80px;opacity:.08;font-family:'Fraunces',serif;line-height:1;}
+.t0 .blockquote{border-color:var(--c0);background:var(--c0s);color:#322B6E;}
+.t1 .blockquote{border-color:var(--c1);background:var(--c1s);color:#0A3F33;}
+.t2 .blockquote{border-color:var(--c2);background:var(--c2s);color:#103A63;}
+.t3 .blockquote{border-color:var(--c3);background:var(--c3s);color:#5C3A0E;}
+.t4 .blockquote{border-color:var(--c4);background:var(--c4s);color:#5C2614;}
+.t5 .blockquote{border-color:var(--c5);background:var(--c5s);color:#561B33;}
+.t6 .blockquote{border-color:var(--c6);background:var(--c6s);color:#293D08;}
+
+/* ===== BODY TEXT ===== */
+.stop-body{font-size:16px;line-height:1.82;color:var(--ink2);font-weight:300;}
+.stop-body p{margin-bottom:1rem;}
+.stop-body p:last-child{margin-bottom:0;}
+.stop-body strong{color:var(--ink);font-weight:600;}
+
+/* ===== MARGIN NOTE ===== */
+.margin-note{margin-top:1.4rem;border-radius:14px;padding:1.1rem 1.4rem 1.1rem 1.6rem;font-size:14px;line-height:1.65;position:relative;overflow:hidden;border-left:4px solid;}
+.margin-note::before{content:'✎';position:absolute;right:1rem;top:.6rem;font-size:34px;opacity:.1;}
+.margin-note .label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:.5rem;opacity:.65;}
+.t0 .margin-note{background:var(--c0s);color:#322B6E;border-color:var(--c0);}
+.t1 .margin-note{background:var(--c1s);color:#0A3F33;border-color:var(--c1);}
+.t2 .margin-note{background:var(--c2s);color:#103A63;border-color:var(--c2);}
+.t3 .margin-note{background:var(--c3s);color:#5C3A0E;border-color:var(--c3);}
+.t4 .margin-note{background:var(--c4s);color:#5C2614;border-color:var(--c4);}
+.t5 .margin-note{background:var(--c5s);color:#561B33;border-color:var(--c5);}
+.t6 .margin-note{background:var(--c6s);color:#293D08;border-color:var(--c6);}
+
+/* ===== CLOSING ===== */
+.closing{max-width:740px;margin:0 auto;padding:2rem 2rem 6rem;}
+.closing-card{background:var(--ink);color:var(--paper);border-radius:28px;padding:4rem 3rem;position:relative;overflow:hidden;text-align:center;}
+.closing-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 20% 80%,rgba(91,79,207,.3) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 80% 20%,rgba(160,66,35,.25) 0%,transparent 60%);}
+.closing-card > *{position:relative;}
+.closing-card .seed{font-size:52px;display:block;margin-bottom:1rem;}
+.closing-card h2{font-family:'Fraunces',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:500;line-height:1.15;margin-bottom:1.2rem;}
+.closing-card p{font-size:15.5px;opacity:.65;line-height:1.8;max-width:460px;margin:0 auto .8rem;font-weight:300;}
+.closing-card .sign{margin-top:2.2rem;font-family:'Caveat',cursive;font-size:26px;opacity:.55;}
+
+/* ===== ANIMATIONS ===== */
+@media(prefers-reduced-motion:no-preference){
+  .stop{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease;}
+  .stop.in-view{opacity:1;transform:translateY(0);}
+  .postit{opacity:0;transform:translateY(16px) rotate(var(--rot,0deg));}
+  .stop.in-view .postit{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));transition:opacity .5s ease,transform .5s ease;}
+  .stop.in-view .postit:nth-child(1){transition-delay:.1s;}
+  .stop.in-view .postit:nth-child(2){transition-delay:.2s;}
+  .stop.in-view .postit:nth-child(3){transition-delay:.3s;}
+  .stop.in-view .postit:nth-child(4){transition-delay:.4s;}
+  .stop.in-view .postit:nth-child(5){transition-delay:.5s;}
+  .stop.in-view .postit:nth-child(6){transition-delay:.6s;}
+  .closing-card{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease;}
+  .closing-card.in-view{opacity:1;transform:translateY(0);}
+}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-stars" id="stars"></div>
+  <div class="hero-orb" style="width:400px;height:400px;background:rgba(91,79,207,.18);top:-100px;right:-80px;"></div>
+  <div class="hero-orb" style="width:300px;height:300px;background:rgba(160,66,35,.15);bottom:-60px;left:-60px;animation-direction:alternate-reverse;"></div>
+  <div class="hero-orb" style="width:200px;height:200px;background:rgba(15,110,86,.12);top:40%;left:10%;animation-duration:12s;"></div>
+
+  <div class="hero-badge"><span class="dot"></span> Proyecto innovación · Design Thinking · UC</div>
+
+  <h1 class="serif">
+    Minutos de
+    <em>Bienestar</em>
+    <span class="sub">UC</span>
+  </h1>
+
+  <p class="hero-lede">El sendero que recorrimos cinco estudiantes — sin conocernos casi nada — para convertir el cansancio compartido de toda una facultad en una pausa de diez minutos.</p>
+
+  <div class="hero-crew">
+    <span class="crew-tag">🎓 Pedagogía</span>
+    <span class="crew-tag">🧠 Psicología</span>
+    <span class="crew-tag">⚙️ Ingeniería</span>
+    <span class="crew-tag">✏️ Diseño ×2</span>
+  </div>
+
+  <div class="scroll-hint">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v14M5 12l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    el sendero
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><span class="stat-n">5</span><span class="stat-l">Estudiantes</span></div>
+  <div class="stat"><span class="stat-n">7</span><span class="stat-l">Etapas DT</span></div>
+  <div class="stat"><span class="stat-n">35+</span><span class="stat-l">Testeado con</span></div>
+  <div class="stat"><span class="stat-n">10'</span><span class="stat-l">La pausa</span></div>
+</div>
+
+<!-- TRAILBAR -->
+<div class="trailbar"><div class="trailbar-inner" id="trailbar"></div></div>
+
+<!-- TRAIL -->
+<div class="trail">
+  <div class="spine"></div>
+  <div id="stops"></div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-card" id="closing-card">
+    <span class="seed">🌱</span>
+    <h2>No diseñamos una app.<br>Diseñamos una pausa.</h2>
+    <p>Empezamos como cinco desconocidos sin saber ni cómo presentarnos. Terminamos siendo el equipo que mejor conocíamos en toda la carrera.</p>
+    <p>Esa, más que la secuencia de ejercicios, fue el prototipo que de verdad importó.</p>
+    <p class="sign">— el equipo de Minutos de Bienestar UC</p>
+  </div>
+</div>
+
+<script>
+/* ---- STARS ---- */
+(function(){
+  const c = document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s = document.createElement('div');
+    s.className='hero-star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*3+2).toFixed(1)}s;--delay:${(Math.random()*4).toFixed(1)}s;`;
+    c.appendChild(s);
+  }
+})();
+
+/* ---- STAGES DATA ---- */
+const stages = [
+  {
+    icon:"👥", tag:"Formación del grupo", num:"Parada 1", title:"El primer día",
+    color:"t0",
+    sketch: `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="260" fill="#1a1340"/>
+      <!-- sala de clases perspectiva -->
+      <polygon points="0,260 680,260 580,80 100,80" fill="#231b50"/>
+      <polygon points="100,80 580,80 560,20 120,20" fill="#2d2368"/>
+      <!-- paredes laterales -->
+      <polygon points="0,260 100,80 120,20 0,0" fill="#1e1545"/>
+      <polygon points="680,260 580,80 560,20 680,0" fill="#1e1545"/>
+      <!-- pizarrón -->
+      <rect x="200" y="30" width="280" height="70" rx="3" fill="#2a3d2a"/>
+      <text x="340" y="55" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#6DC8A0">Design Thinking</text>
+      <text x="340" y="73" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4a8a68">¿Quién toma el liderazgo?</text>
+      <!-- mesas -->
+      <ellipse cx="170" cy="190" rx="60" ry="22" fill="#3d2e60" stroke="#5B4FCF" stroke-width="1.5"/>
+      <ellipse cx="340" cy="185" rx="65" ry="22" fill="#3d2e60" stroke="#5B4FCF" stroke-width="1.5"/>
+      <ellipse cx="510" cy="190" rx="60" ry="22" fill="#3d2e60" stroke="#5B4FCF" stroke-width="1.5"/>
+      <!-- personas estilizadas -->
+      <g fill="#FCE3C9"><circle cx="130" cy="155" r="13"/><circle cx="175" cy="152" r="13"/><circle cx="215" cy="155" r="13"/></g>
+      <g fill="#8077E0"><rect x="118" y="168" width="24" height="28" rx="6"/><rect x="163" y="165" width="24" height="30" rx="6"/><rect x="203" y="168" width="24" height="28" rx="6"/></g>
+      <g fill="#E8B48C"><circle cx="300" cy="150" r="13"/><circle cx="345" cy="148" r="13"/></g>
+      <g fill="#5B4FCF"><rect x="288" y="163" width="24" height="30" rx="6"/><rect x="333" y="161" width="24" height="32" rx="6"/></g>
+      <g fill="#F3C9A8"><circle cx="465" cy="155" r="13"/><circle cx="508" cy="152" r="13"/><circle cx="552" cy="155" r="13"/></g>
+      <g fill="#3C3489"><rect x="453" y="168" width="24" height="28" rx="6"/><rect x="496" y="165" width="24" height="30" rx="6"/><rect x="540" y="168" width="24" height="28" rx="6"/></g>
+      <!-- bocadillos torpes -->
+      <ellipse cx="156" cy="132" rx="28" ry="14" fill="rgba(255,255,255,.1)"/>
+      <text x="156" y="136" text-anchor="middle" font-family="Caveat,cursive" font-size="9" fill="rgba(255,255,255,.5)">¿y tú?</text>
+      <ellipse cx="340" cy="126" rx="44" ry="15" fill="rgba(255,255,255,.1)"/>
+      <text x="340" y="130" text-anchor="middle" font-family="Caveat,cursive" font-size="9" fill="rgba(255,255,255,.5)">¿quién lidera?  🤔</text>
+      <text x="340" y="250" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="13" fill="rgba(250,246,236,.4)">cinco desconocidos, una misma sala</text>
+    </svg>`,
+    postits:[
+      {color:"yellow",rot:"-4deg",emoji:"😅",text:"¿Quién lidera esto?"},
+      {color:"blue",rot:"3deg",emoji:"🎓",text:"Pedagogía aquí"},
+      {color:"pink",rot:"-2deg",emoji:"😰",text:"No nos conocemos…"},
+      {color:"green",rot:"4deg",emoji:"🤝",text:"Crear confianza primero"},
+      {color:"orange",rot:"-3deg",emoji:"💬",text:'"¿Tú también duermes mal?"'},
+    ],
+    body:`<p>El día que se formaron los grupos, ninguno de nosotros se conocía. Éramos cinco estudiantes con perspectivas distintas: alguien de Pedagogía, otra de Psicología, uno de Ingeniería y dos de Diseño. Al principio, la sala de clases parecía un mar de miradas incómodas.</p>
+<p>Las primeras conversaciones fueron torpes. ¿Quién lideraba? ¿Qué rol tomaba cada uno? Intentamos hacer una lluvia de ideas sin estructura y terminamos con cuatro conversaciones paralelas y ninguna conclusión.</p>
+<p>Pero en el camino de regreso, alguien dijo algo que cambió todo: <strong>todos habíamos sentido el peso del estrés académico</strong>. Esa incomodidad compartida se convirtió en nuestra brújula.</p>`,
+    quote:`"¿Tú también duermes mal en época de pruebas?"`,
+    note:`Dificultad clave: coordinarnos siendo cinco personas que nunca habían trabajado juntas. Aprendimos que el primer paso no era tener una buena idea, sino crear confianza.`
+  },
+  {
+    icon:"🔍", tag:"Empatizar", num:"Parada 2", title:"Escuchar antes de hablar",
+    color:"t1",
+    sketch: `<svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="340" fill="#E3F2EC"/>
+      <!-- MAPA DE EMPATÍA completo -->
+      <text x="340" y="24" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="15" fill="#0F6E56">Mapa de Empatía — El Estudiante UC</text>
+      <!-- cabeza persona central -->
+      <circle cx="340" cy="170" r="42" fill="#FCE3C9" stroke="#0F6E56" stroke-width="2"/>
+      <circle cx="325" cy="160" r="5" fill="#2B2620"/><circle cx="355" cy="160" r="5" fill="#2B2620"/>
+      <path d="M325 180 q15 10 30 0" stroke="#2B2620" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <text x="340" y="204" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#0F6E56">Estudiante UC</text>
+      <!-- CUADRANTES -->
+      <!-- PIENSA Y SIENTE -->
+      <rect x="20" y="38" width="240" height="120" rx="8" fill="rgba(255,255,255,.7)" stroke="#A5D6A7" stroke-width="1.5"/>
+      <text x="30" y="55" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="1" fill="#1A9972">PIENSA Y SIENTE</text>
+      <text x="30" y="72" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• "Si paro, todos me pasan a llevar"</text>
+      <text x="30" y="90" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Siente que descansar es debilidad</text>
+      <text x="30" y="108" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Ansiedad antes de cada prueba</text>
+      <text x="30" y="126" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Quiere rendir bien pero está agotado</text>
+      <text x="30" y="144" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• No admite que sufre en público</text>
+      <!-- VE -->
+      <rect x="420" y="38" width="240" height="120" rx="8" fill="rgba(255,255,255,.7)" stroke="#A5D6A7" stroke-width="1.5"/>
+      <text x="430" y="55" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="1" fill="#1A9972">VE</text>
+      <text x="430" y="72" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Compañeros con ojeras y café</text>
+      <text x="430" y="90" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Clases de 2h sin pausas</text>
+      <text x="430" y="108" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Nadie estira el cuerpo</text>
+      <text x="430" y="126" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Celulares como escape</text>
+      <text x="430" y="144" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Prof. que tampoco descansa</text>
+      <!-- DICE Y HACE -->
+      <rect x="20" y="230" width="240" height="95" rx="8" fill="rgba(255,255,255,.7)" stroke="#A5D6A7" stroke-width="1.5"/>
+      <text x="30" y="247" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="1" fill="#1A9972">DICE Y HACE</text>
+      <text x="30" y="264" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• "Estoy bien" (no está bien)</text>
+      <text x="30" y="282" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Come frente a la pantalla</text>
+      <text x="30" y="300" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• No mueve el cuerpo en días</text>
+      <text x="30" y="318" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• Duerme 5h o menos</text>
+      <!-- ESCUCHA -->
+      <rect x="420" y="230" width="240" height="95" rx="8" fill="rgba(255,255,255,.7)" stroke="#A5D6A7" stroke-width="1.5"/>
+      <text x="430" y="247" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="1" fill="#1A9972">ESCUCHA</text>
+      <text x="430" y="264" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• "No hay tiempo para descansar"</text>
+      <text x="430" y="282" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• "Hay que rendir igual"</text>
+      <text x="430" y="300" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• "Eso es para los débiles"</text>
+      <text x="430" y="318" font-family="Caveat,cursive" font-size="13" fill="#0A3F33">• "Descansaré en vacaciones"</text>
+      <!-- ESFUERZOS -->
+      <rect x="100" y="290" width="180" height="42" rx="8" fill="#EF9A9A" opacity=".9"/>
+      <text x="190" y="307" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#4A0000">ESFUERZOS (DOLORES)</text>
+      <text x="190" y="322" text-anchor="middle" font-family="Caveat,cursive" font-size="11.5" fill="#4A0000">Culpa · Fatiga · Aislamiento</text>
+      <!-- RESULTADOS -->
+      <rect x="400" y="290" width="180" height="42" rx="8" fill="#A5D6A7" opacity=".9"/>
+      <text x="490" y="307" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#1B4A1D">RESULTADOS (GANANCIAS)</text>
+      <text x="490" y="322" text-anchor="middle" font-family="Caveat,cursive" font-size="11.5" fill="#1B4A1D">Conexión · Calma · Enfoque</text>
+      <!-- líneas divisorias -->
+      <line x1="340" y1="38" x2="340" y2="330" stroke="#0F6E56" stroke-width="1" opacity=".2" stroke-dasharray="4 4"/>
+      <line x1="20" y1="160" x2="660" y2="160" stroke="#0F6E56" stroke-width="1" opacity=".2" stroke-dasharray="4 4"/>
+    </svg>`,
+    postits:[
+      {color:"pink",rot:"-3deg",emoji:"😭",text:'"Lloré solo en el baño"'},
+      {color:"yellow",rot:"2deg",emoji:"🍕",text:"Come frente al PC"},
+      {color:"blue",rot:"-4deg",emoji:"😴",text:"5h de sueño o menos"},
+      {color:"green",rot:"3deg",emoji:"💡",text:"El estrés es SOCIAL"},
+      {color:"lavender",rot:"-2deg",emoji:"🎤",text:"Pregunta distinta → historias fluyen"},
+    ],
+    body:`<p>Para comprender mejor el problema, salimos a entrevistar. Nadie quería hablar con nosotros al principio. En vez de preguntar "¿sufres de estrés?", empezamos a preguntar <strong>"¿cómo fue tu última semana de pruebas?"</strong></p>
+<p>Construimos el <strong>Mapa de Empatía</strong> de arriba con todo lo que escuchamos. El patrón era claro: el estrés no era un evento aislado, era una condición crónica instalada en la cultura universitaria. Nadie hacía pausas. Nadie se lo permitía.</p>`,
+    quote:`"Sé que debería descansar, pero siento que si paro, los demás me pasan a llevar."`,
+    note:`Momento revelador: el estrés no era solo personal — era social. Admitirlo en público parecía una señal de debilidad.`
+  },
+  {
+    icon:"🎯", tag:"Definir", num:"Parada 3", title:"Dar nombre al problema",
+    color:"t2",
+    sketch: `<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="300" fill="#E5EFF8"/>
+      <text x="340" y="24" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="15" fill="#1D5FA0">Mapa de Viaje del Estudiante + Insights</text>
+      <!-- journey map timeline -->
+      <line x1="50" y1="120" x2="630" y2="120" stroke="#1D5FA0" stroke-width="2" opacity=".3"/>
+      <!-- hitos -->
+      <g>
+        <circle cx="80" cy="120" r="10" fill="#1D5FA0"/><text x="80" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#103A63">Llega</text>
+        <circle cx="190" cy="90" r="10" fill="#2E78C4"/><text x="190" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#103A63">1a hora</text>
+        <circle cx="310" cy="68" r="10" fill="#EF9A9A"/><text x="310" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#103A63">2a hora</text>
+        <circle cx="430" cy="78" r="10" fill="#EF9A9A"/><text x="430" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#103A63">Prueba</text>
+        <circle cx="560" cy="105" r="10" fill="#A5D6A7"/><text x="560" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#103A63">Pausa ✓</text>
+      </g>
+      <!-- curva emoción -->
+      <path d="M80,120 C120,110 160,80 190,90 C220,100 270,60 310,68 C350,76 390,74 430,78 C470,82 510,100 560,105" stroke="#1D5FA0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- emojis emoción -->
+      <text x="80" y="108" text-anchor="middle" font-size="16">😊</text>
+      <text x="190" y="78" text-anchor="middle" font-size="16">😐</text>
+      <text x="310" y="56" text-anchor="middle" font-size="16">😫</text>
+      <text x="430" y="66" text-anchor="middle" font-size="16">😰</text>
+      <text x="560" y="93" text-anchor="middle" font-size="16">😌</text>
+      <!-- etiqueta -->
+      <text x="50" y="170" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#1D5FA0">NIVEL DE ENERGÍA →</text>
+      <!-- INSIGHTS CARDS abajo -->
+      <rect x="30" y="185" width="180" height="95" rx="8" fill="rgba(255,255,255,.8)" stroke="#BFD9EF" stroke-width="1.5"/>
+      <text x="40" y="202" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#1D5FA0">INSIGHT #1</text>
+      <text x="40" y="218" font-family="Caveat,cursive" font-size="13" fill="#103A63">Sin pausas conscientes</text>
+      <text x="40" y="234" font-family="Caveat,cursive" font-size="13" fill="#103A63">en 2h de clase, la</text>
+      <text x="40" y="250" font-family="Caveat,cursive" font-size="13" fill="#103A63">energía cae en picada</text>
+      <text x="40" y="270" font-family="Caveat,cursive" font-size="11" fill="#2E78C4">🎯 Foco: dentro del aula</text>
+      <rect x="250" y="185" width="180" height="95" rx="8" fill="rgba(255,255,255,.8)" stroke="#BFD9EF" stroke-width="1.5"/>
+      <text x="260" y="202" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#1D5FA0">INSIGHT #2</text>
+      <text x="260" y="218" font-family="Caveat,cursive" font-size="13" fill="#103A63">El cuerpo también</text>
+      <text x="260" y="234" font-family="Caveat,cursive" font-size="13" fill="#103A63">aprende — sin movimiento</text>
+      <text x="260" y="250" font-family="Caveat,cursive" font-size="13" fill="#103A63">no hay concentración</text>
+      <text x="260" y="270" font-family="Caveat,cursive" font-size="11" fill="#2E78C4">🧠 Foco: cuerpo + mente</text>
+      <rect x="470" y="185" width="180" height="95" rx="8" fill="#1D5FA0"/>
+      <text x="480" y="202" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="rgba(229,239,248,.7)">PREGUNTA HMW ⭐</text>
+      <text x="480" y="218" font-family="Caveat,cursive" font-size="12.5" fill="#fff">¿Cómo podríamos</text>
+      <text x="480" y="234" font-family="Caveat,cursive" font-size="12.5" fill="#fff">ayudar a reducir el</text>
+      <text x="480" y="250" font-family="Caveat,cursive" font-size="12.5" fill="#fff">estrés dentro del aula</text>
+      <text x="480" y="266" font-family="Caveat,cursive" font-size="12.5" fill="#fff">sin interrumpir el</text>
+      <text x="480" y="282" font-family="Caveat,cursive" font-size="12.5" fill="#fff">aprendizaje?</text>
+    </svg>`,
+    postits:[
+      {color:"blue",rot:"-3deg",emoji:"🗺️",text:"Journey Map listo"},
+      {color:"red",rot:"2deg",emoji:"❌",text:"No: hábitos sueño"},
+      {color:"red",rot:"-2deg",emoji:"❌",text:"No: carga académica"},
+      {color:"green",rot:"3deg",emoji:"✅",text:"SÍ: pausas en aula"},
+      {color:"yellow",rot:"-4deg",emoji:"💡",text:"HMW = nuestra estrella polar"},
+    ],
+    body:`<p>Con todos los hallazgos sobre la mesa llegó el momento más difícil: ponernos de acuerdo. Alguien quería enfocarse en hábitos de sueño, otro en alimentación, uno más en la carga académica excesiva.</p>
+<p>El <strong>Mapa de Viaje del Estudiante</strong> (arriba) nos mostró el punto exacto de mayor dolor: la caída de energía dentro del aula, en las 2 horas sin pausas. Formulamos preguntas HMW hasta que una nos resonó a todos.</p>`,
+    quote:`¿Cómo podríamos ayudar a los estudiantes a reducir el estrés académico dentro del aula, sin interrumpir el aprendizaje?`,
+    note:`Definir bien el problema tomó casi tanto tiempo como empatizar. Una pregunta HMW bien formulada vale más que diez ideas mediocres.`
+  },
+  {
+    icon:"💡", tag:"Idear", num:"Parada 4", title:"El caos creativo",
+    color:"t3",
+    sketch: `<svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="320" fill="#FAEFDC"/>
+      <text x="340" y="24" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="15" fill="#B8771A">Lluvia de Ideas + Benchmarking Internacional</text>
+      <!-- papelógrafo -->
+      <rect x="20" y="40" width="290" height="250" rx="4" fill="#fff" stroke="#EBCB94" stroke-width="2"/>
+      <text x="165" y="58" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#B8771A">CRAZY 8s — TODAS LAS IDEAS</text>
+      <!-- ideas en papelógrafo -->
+      <rect x="32" y="66" width="125" height="50" rx="4" fill="#FFF176" stroke="#F9A825" stroke-width="1" transform="rotate(-1 95 91)"/>
+      <text x="95" y="85" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A3C00" transform="rotate(-1 95 91)">🎵 Música ambiental</text>
+      <text x="95" y="100" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A3C00" transform="rotate(-1 95 91)">en el aula</text>
+      <rect x="170" y="70" width="118" height="50" rx="4" fill="#FF8FAB" stroke="#E91E63" stroke-width="1" transform="rotate(2 229 95)"/>
+      <text x="229" y="89" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#5C001E" transform="rotate(2 229 95)">😴 Cápsulas de</text>
+      <text x="229" y="104" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#5C001E" transform="rotate(2 229 95)">siesta entre clases</text>
+      <rect x="32" y="128" width="120" height="50" rx="4" fill="#80DEEA" stroke="#00ACC1" stroke-width="1" transform="rotate(-2 92 153)"/>
+      <text x="92" y="147" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#003F47" transform="rotate(-2 92 153)">🧘 Meditación</text>
+      <text x="92" y="162" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#003F47" transform="rotate(-2 92 153)">guiada al inicio</text>
+      <rect x="162" y="132" width="126" height="50" rx="4" fill="#A5D6A7" stroke="#43A047" stroke-width="1" transform="rotate(1.5 225 157)"/>
+      <text x="225" y="151" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#1B4A1D" transform="rotate(1.5 225 157)">🚨 Botón anti-pánico</text>
+      <text x="225" y="166" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#1B4A1D" transform="rotate(1.5 225 157)">en cada pupitre</text>
+      <rect x="32" y="192" width="122" height="50" rx="4" fill="#FFCC80" stroke="#F57C00" stroke-width="1" transform="rotate(-2.5 93 217)"/>
+      <text x="93" y="211" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A2800" transform="rotate(-2.5 93 217)">🚦 Semáforo del</text>
+      <text x="93" y="226" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A2800" transform="rotate(-2.5 93 217)">estrés en la puerta</text>
+      <rect x="164" y="196" width="124" height="50" rx="4" fill="#CE93D8" stroke="#8E24AA" stroke-width="1" transform="rotate(2 226 221)"/>
+      <text x="226" y="215" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#3B0050" transform="rotate(2 226 221)">🏃 Pausa activa</text>
+      <text x="226" y="230" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#3B0050" transform="rotate(2 226 221)">10 min ← ¡GANADORA!</text>
+      <!-- círculo ganadora -->
+      <circle cx="226" cy="221" r="64" fill="none" stroke="#B8771A" stroke-width="3" stroke-dasharray="6 3" transform="rotate(2 226 221)" opacity=".7"/>
+      <!-- BENCHMARKING -->
+      <rect x="330" y="40" width="330" height="250" rx="4" fill="#fff" stroke="#EBCB94" stroke-width="2"/>
+      <text x="495" y="58" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#B8771A">BENCHMARKING INTERNACIONAL 🌍</text>
+      <!-- países -->
+      <rect x="346" y="68" width="145" height="75" rx="6" fill="#E3F2EC" stroke="#A5D6A7" stroke-width="1.5"/>
+      <text x="420" y="84" text-anchor="middle" font-size="18">🇧🇷</text>
+      <text x="420" y="100" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#0F6E56">Brasil</text>
+      <text x="420" y="115" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#0A3F33">Pausas activas en</text>
+      <text x="420" y="129" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#0A3F33">empresas y colegios</text>
+      <rect x="503" y="68" width="145" height="75" rx="6" fill="#E5EFF8" stroke="#BFD9EF" stroke-width="1.5"/>
+      <text x="576" y="84" text-anchor="middle" font-size="18">🇺🇸</text>
+      <text x="576" y="100" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#1D5FA0">Stanford</text>
+      <text x="576" y="115" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#103A63">Mindfulness</text>
+      <text x="576" y="129" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#103A63">en clases d-school</text>
+      <rect x="346" y="155" width="145" height="75" rx="6" fill="#ECE9FB" stroke="#C5BDEE" stroke-width="1.5"/>
+      <text x="420" y="171" text-anchor="middle" font-size="18">🇫🇮</text>
+      <text x="420" y="187" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#5B4FCF">Finlandia</text>
+      <text x="420" y="202" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#322B6E">Sistema educativo</text>
+      <text x="420" y="216" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#322B6E">con pausas obligatorias</text>
+      <rect x="503" y="155" width="145" height="75" rx="6" fill="#FAEAE2" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="576" y="171" text-anchor="middle" font-size="18">🇨🇱</text>
+      <text x="576" y="187" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#A04223">UC Chile</text>
+      <text x="576" y="202" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#5C2614">← Nosotros</text>
+      <text x="576" y="218" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#5C2614">¡El hueco a llenar!</text>
+      <!-- flecha insight -->
+      <text x="495" y="253" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#B8771A">💡 La idea existe — nadie la sistematizó aquí</text>
+      <text x="495" y="272" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#8C5A0E">→ Oportunidad real para Minutos de Bienestar UC</text>
+    </svg>`,
+    postits:[
+      {color:"yellow",rot:"-4deg",emoji:"🎵",text:"Música ambiental"},
+      {color:"blue",rot:"3deg",emoji:"🚨",text:"Botón anti-pánico 😂"},
+      {color:"orange",rot:"-2deg",emoji:"🏃",text:"Pausa activa 10' ← ESTO"},
+      {color:"green",rot:"4deg",emoji:"🌍",text:"Existe en Brazil, Stanford, Finlandia"},
+      {color:"pink",rot:"-3deg",emoji:"🎯",text:"Lo mínimo viable primero"},
+    ],
+    body:`<p>La sesión de lluvia de ideas fue la más caótica y también la más divertida. Nos propusimos que ninguna idea era mala. En 20 minutos llenamos tres papelógrafos — desde música ambiental hasta botones antipánico.</p>
+<p>El <strong>benchmarking</strong> nos reveló algo clave: la idea existía en Brasil, Stanford y Finlandia, pero nadie la había implementado sistemáticamente en nuestra facultad. Era el hueco perfecto.</p>
+<p>Después de votar, convergimos en lo más simple y poderoso: <strong>diez minutos de pausa activa</strong> al inicio o mitad de cada clase.</p>`,
+    quote:null,
+    note:`Tensión del equipo: alguien quería una app, otro algo analógico. Acordamos empezar con lo mínimo viable — lo físico y presente — antes de escalar.`
+  },
+  {
+    icon:"🧩", tag:"Prototipar", num:"Parada 5", title:"De la idea a la acción",
+    color:"t4",
+    sketch: `<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="310" fill="#FAEAE2"/>
+      <text x="340" y="22" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="15" fill="#A04223">Business Model Canvas — Minutos de Bienestar UC</text>
+      <!-- CANVAS grid -->
+      <!-- Socios clave -->
+      <rect x="16" y="32" width="110" height="130" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="71" y="48" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" letter-spacing=".5" fill="#A04223">SOCIOS CLAVE</text>
+      <text x="24" y="64" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Profesores UC</text>
+      <text x="24" y="80" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• DAE Bienestar</text>
+      <text x="24" y="96" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Psicología UC</text>
+      <text x="24" y="112" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Cap. Estudiantil</text>
+      <text x="24" y="128" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Kinesiólogos</text>
+      <!-- Actividades clave -->
+      <rect x="136" y="32" width="110" height="62" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="191" y="48" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" letter-spacing=".5" fill="#A04223">ACTIVIDADES CLAVE</text>
+      <text x="144" y="62" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Diseñar secuencias</text>
+      <text x="144" y="76" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Facilitar pausas</text>
+      <text x="144" y="90" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Recolectar datos</text>
+      <!-- Recursos clave -->
+      <rect x="136" y="102" width="110" height="60" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="191" y="117" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" letter-spacing=".5" fill="#A04223">RECURSOS CLAVE</text>
+      <text x="144" y="131" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• 5 estudiantes</text>
+      <text x="144" y="145" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Playlist + guía</text>
+      <text x="144" y="159" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• 10 minutos</text>
+      <!-- PROPUESTA DE VALOR - centro destacado -->
+      <rect x="256" y="32" width="168" height="130" rx="5" fill="#A04223"/>
+      <text x="340" y="52" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing=".5" fill="rgba(250,234,226,.7)">PROPUESTA DE VALOR ⭐</text>
+      <text x="340" y="74" text-anchor="middle" font-family="Caveat,cursive" font-size="16" fill="#fff">Una pausa de</text>
+      <text x="340" y="93" text-anchor="middle" font-family="Caveat,cursive" font-size="16" fill="#fff">10 minutos que</text>
+      <text x="340" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="16" fill="#fff">transforma el</text>
+      <text x="340" y="131" text-anchor="middle" font-family="Caveat,cursive" font-size="16" fill="#fff">clima del aula</text>
+      <text x="340" y="152" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="rgba(255,255,255,.65)">sin interrumpir el aprendizaje</text>
+      <!-- Relación con clientes -->
+      <rect x="434" y="32" width="110" height="62" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="489" y="48" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" letter-spacing=".5" fill="#A04223">RELACIÓN</text>
+      <text x="442" y="62" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Presencial directa</text>
+      <text x="442" y="76" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Feedback continuo</text>
+      <text x="442" y="90" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Co-creación</text>
+      <!-- Canales -->
+      <rect x="434" y="102" width="110" height="60" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="489" y="117" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" letter-spacing=".5" fill="#A04223">CANALES</text>
+      <text x="442" y="131" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Aulas UC</text>
+      <text x="442" y="145" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Correo interno</text>
+      <text x="442" y="159" font-family="Caveat,cursive" font-size="11.5" fill="#5C2614">• Voz a voz</text>
+      <!-- Segmento -->
+      <rect x="554" y="32" width="110" height="130" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="609" y="48" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" letter-spacing=".5" fill="#A04223">SEGMENTO</text>
+      <text x="562" y="64" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Estudiantes UC</text>
+      <text x="562" y="80" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Todas las carreras</text>
+      <text x="562" y="96" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Profesores UC</text>
+      <text x="562" y="112" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Ayudantes</text>
+      <text x="562" y="128" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• Personal UC</text>
+      <text x="562" y="144" font-family="Caveat,cursive" font-size="12" fill="#5C2614">• 35+ en prueba</text>
+      <!-- COSTOS -->
+      <rect x="16" y="172" width="320" height="90" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="176" y="188" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing=".5" fill="#A04223">ESTRUCTURA DE COSTOS</text>
+      <text x="24" y="206" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• Tiempo del equipo (5 personas × semestre)</text>
+      <text x="24" y="224" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• Impresión de guías: $0 (PDF)</text>
+      <text x="24" y="242" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• Playlist: Spotify gratuito</text>
+      <text x="24" y="256" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• Costo real: voluntad + coordinación</text>
+      <!-- INGRESOS -->
+      <rect x="346" y="172" width="318" height="90" rx="5" fill="rgba(255,255,255,.75)" stroke="#EBC7B5" stroke-width="1.5"/>
+      <text x="505" y="188" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" letter-spacing=".5" fill="#A04223">FUENTES DE VALOR</text>
+      <text x="354" y="206" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• +Participación en clases post-pausa</text>
+      <text x="354" y="224" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• +Concentración medible</text>
+      <text x="354" y="242" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• Cultura de bienestar instalada</text>
+      <text x="354" y="256" font-family="Caveat,cursive" font-size="13" fill="#5C2614">• Modelo replicable a otras facultades</text>
+      <!-- linea divisora canvas -->
+      <line x1="16" y1="170" x2="664" y2="170" stroke="#A04223" stroke-width="1" opacity=".25"/>
+      <line x1="255" y1="32" x2="255" y2="168" stroke="#A04223" stroke-width="1" opacity=".25"/>
+      <line x1="433" y1="32" x2="433" y2="168" stroke="#A04223" stroke-width="1" opacity=".25"/>
+    </svg>`,
+    postits:[
+      {color:"orange",rot:"-3deg",emoji:"📋",text:"Canvas listo en 1 tarde"},
+      {color:"pink",rot:"2deg",emoji:"😬",text:"35 estudiantes. Hubo risas…"},
+      {color:"yellow",rot:"-2deg",emoji:"✨",text:"A los 2 min algo cambió"},
+      {color:"green",rot:"4deg",emoji:"🙋",text:"1ra vez que ella participó"},
+      {color:"blue",rot:"-3deg",emoji:"🎵",text:"Playlist + estiramientos impresos"},
+    ],
+    body:`<p>Diseñamos el prototipo en dos dimensiones: el <strong>Business Model Canvas</strong> (arriba) para entender el sistema completo, y una secuencia práctica de 10 minutos lista para clases reales.</p>
+<p>La primera prueba fue con 35 estudiantes de Metodología. Llegamos nerviosos. Cuando anunciamos "la pausa de bienestar", hubo risas incómodas. Alguien sacó el teléfono.</p>
+<p>Pero empezamos. A los dos minutos, algo cambió. Las risas se convirtieron en silencio. El profesor dijo que nunca había visto a ese grupo tan tranquilo antes de una discusión compleja.</p>`,
+    quote:null,
+    note:`El momento que lo cambió todo: una estudiante que normalmente no participaba levantó la mano por primera vez después de la pausa.`
+  },
+  {
+    icon:"🔄", tag:"Evaluar", num:"Parada 6", title:"Escuchar de nuevo",
+    color:"t5",
+    sketch: `<svg viewBox="0 0 680 290" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="290" fill="#F8E9EF"/>
+      <text x="340" y="22" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="15" fill="#8C2F54">Retroalimentación — 3 Versiones del Prototipo</text>
+      <!-- ITERACIÓN 1 -->
+      <rect x="16" y="36" width="200" height="220" rx="10" fill="rgba(255,255,255,.8)" stroke="#EFCAD9" stroke-width="2"/>
+      <rect x="16" y="36" width="200" height="36" rx="10" fill="#8C2F54"/>
+      <rect x="16" y="60" width="200" height="12" rx="0" fill="#8C2F54"/>
+      <text x="116" y="58" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing=".5" fill="#fff">VERSIÓN 1.0</text>
+      <text x="116" y="90" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#561B33">10 min siempre</text>
+      <text x="116" y="108" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#561B33">1 playlist intensa</text>
+      <text x="116" y="126" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#561B33">Solo de pie</text>
+      <line x1="36" y1="140" x2="196" y2="140" stroke="#EFCAD9" stroke-width="1"/>
+      <text x="116" y="158" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" fill="#8C2F54">FEEDBACK RECIBIDO</text>
+      <text x="36" y="176" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">❌ Música muy intensa</text>
+      <text x="36" y="192" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">❌ 10 min p/ clase 50'</text>
+      <text x="36" y="208" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">❌ No incluye sentados</text>
+      <text x="36" y="224" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">✅ La idea funciona!</text>
+      <!-- ITERACIÓN 2 -->
+      <rect x="240" y="36" width="200" height="220" rx="10" fill="rgba(255,255,255,.8)" stroke="#EFCAD9" stroke-width="2"/>
+      <rect x="240" y="36" width="200" height="36" rx="10" fill="#B33F6E"/>
+      <rect x="240" y="60" width="200" height="12" rx="0" fill="#B33F6E"/>
+      <text x="340" y="58" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing=".5" fill="#fff">VERSIÓN 2.0</text>
+      <text x="340" y="90" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#561B33">5 o 10 min según clase</text>
+      <text x="340" y="108" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#561B33">3 playlists</text>
+      <text x="340" y="126" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#561B33">Opción sentados</text>
+      <line x1="260" y1="140" x2="420" y2="140" stroke="#EFCAD9" stroke-width="1"/>
+      <text x="340" y="158" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" fill="#8C2F54">FEEDBACK RECIBIDO</text>
+      <text x="260" y="176" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">✅ Mucho mejor</text>
+      <text x="260" y="192" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">⚠️ Materia → tipo pausa</text>
+      <text x="260" y="208" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">⚠️ Docentes solos?</text>
+      <text x="260" y="224" font-family="Caveat,cursive" font-size="12.5" fill="#561B33">💡 Guía para profes</text>
+      <!-- ITERACIÓN 3 -->
+      <rect x="464" y="36" width="200" height="220" rx="10" fill="rgba(255,255,255,.8)" stroke="#EFCAD9" stroke-width="2"/>
+      <rect x="464" y="36" width="200" height="36" rx="10" fill="#42600F"/>
+      <rect x="464" y="60" width="200" height="12" rx="0" fill="#42600F"/>
+      <text x="564" y="58" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing=".5" fill="#fff">VERSIÓN 3.0 ✅</text>
+      <text x="564" y="90" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#293D08">3 versiones (5/8/10 min)</text>
+      <text x="564" y="108" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#293D08">Según materia</text>
+      <text x="564" y="126" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#293D08">Guía para docentes</text>
+      <line x1="484" y1="140" x2="644" y2="140" stroke="#EFCAD9" stroke-width="1"/>
+      <text x="564" y="158" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" font-weight="700" fill="#42600F">RESULTADO</text>
+      <text x="484" y="176" font-family="Caveat,cursive" font-size="12.5" fill="#293D08">✅ Autónomo sin nosotros</text>
+      <text x="484" y="192" font-family="Caveat,cursive" font-size="12.5" fill="#293D08">✅ Accesible a todos</text>
+      <text x="484" y="208" font-family="Caveat,cursive" font-size="12.5" fill="#293D08">✅ Adaptado por materia</text>
+      <text x="484" y="224" font-family="Caveat,cursive" font-size="12.5" fill="#293D08">🌱 Listo para escalar</text>
+      <!-- flechas iteración -->
+      <path d="M218 146 q11 0 20 0" stroke="#8C2F54" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+      <path d="M442 146 q11 0 20 0" stroke="#8C2F54" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8C2F54"/></marker></defs>
+      <text x="340" y="278" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#8C2F54">El prototipo no era el destino — era el inicio de una conversación</text>
+    </svg>`,
+    postits:[
+      {color:"pink",rot:"-3deg",emoji:"🎵",text:"Música más suave 8AM pls"},
+      {color:"yellow",rot:"2deg",emoji:"♿",text:"Opción sentados necesaria"},
+      {color:"blue",rot:"-4deg",emoji:"⏱️",text:"5 min p/ clase de 50'"},
+      {color:"green",rot:"3deg",emoji:"📖",text:"Guía para profes autónoma"},
+      {color:"lavender",rot:"-2deg",emoji:"🔁",text:"Iterar es humildad"},
+    ],
+    body:`<p>Recolectamos retroalimentación a través de formularios cortos y conversaciones informales. Las respuestas fueron honestas, a veces incómodas y siempre valiosas.</p>
+<p>El esquema de arriba muestra las <strong>tres versiones</strong> que iteramos. Cada ronda de feedback nos hizo mejorar: más playlists, opciones de movimiento sentado, guías para que los docentes facilitaran solos.</p>
+<p>La lección más grande: <strong>evaluar bien requiere la humildad de escuchar lo que no quieres oír</strong>.</p>`,
+    quote:null,
+    note:`Lección fundamental: el prototipo no era el destino, era el inicio de una conversación.`
+  },
+  {
+    icon:"🌱", tag:"Reflexión final", num:"Parada 7", title:"Lo que el viaje nos dejó",
+    color:"t6",
+    sketch: `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="260" fill="#EBF1DD"/>
+      <!-- cielo degradado amanecer -->
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#B3E5FC"/>
+          <stop offset="60%" stop-color="#E8F5E9"/>
+          <stop offset="100%" stop-color="#EBF1DD"/>
+        </linearGradient>
+      </defs>
+      <rect width="680" height="200" fill="url(#sky)"/>
+      <!-- sol -->
+      <circle cx="340" cy="80" r="40" fill="#FFF9C4" opacity=".8"/>
+      <circle cx="340" cy="80" r="28" fill="#FFF176"/>
+      <g stroke="#F9A825" stroke-width="2" opacity=".6">
+        <line x1="340" y1="28" x2="340" y2="16"/><line x1="340" y1="132" x2="340" y2="144"/>
+        <line x1="288" y1="80" x2="276" y2="80"/><line x1="392" y1="80" x2="404" y2="80"/>
+        <line x1="303" y1="43" x2="295" y2="35"/><line x1="377" y1="117" x2="385" y2="125"/>
+        <line x1="377" y1="43" x2="385" y2="35"/><line x1="303" y1="117" x2="295" y2="125"/>
+      </g>
+      <!-- montañas fondo -->
+      <polygon points="0,200 120,100 240,180 360,90 480,150 600,80 680,130 680,200" fill="#A5D6A7" opacity=".5"/>
+      <polygon points="0,200 80,140 160,180 280,110 400,170 520,100 640,160 680,140 680,200" fill="#81C784" opacity=".6"/>
+      <!-- colina base -->
+      <ellipse cx="340" cy="220" rx="400" ry="80" fill="#5C8A1A" opacity=".7"/>
+      <ellipse cx="340" cy="230" rx="500" ry="80" fill="#42600F"/>
+      <!-- árbol creativo -->
+      <rect x="336" y="150" width="8" height="80" rx="3" fill="#3E2723"/>
+      <!-- ramas con hojas -->
+      <ellipse cx="310" cy="150" rx="28" ry="18" fill="#7CB342" transform="rotate(-20 310 150)"/>
+      <ellipse cx="340" cy="128" rx="32" ry="20" fill="#8BC34A"/>
+      <ellipse cx="370" cy="148" rx="26" ry="17" fill="#9CCC65" transform="rotate(15 370 148)"/>
+      <ellipse cx="322" cy="130" rx="22" ry="14" fill="#AED581" transform="rotate(-10 322 130)"/>
+      <ellipse cx="358" cy="130" rx="20" ry="13" fill="#C5E1A5" transform="rotate(8 358 130)"/>
+      <!-- flores en el árbol -->
+      <circle cx="306" cy="140" r="5" fill="#FF8FAB" opacity=".8"/>
+      <circle cx="340" cy="116" r="6" fill="#FFB74D" opacity=".8"/>
+      <circle cx="374" cy="138" r="5" fill="#81D4FA" opacity=".8"/>
+      <!-- 5 personitas abajo -->
+      <g>
+        <circle cx="240" cy="210" r="12" fill="#FCE3C9"/><rect x="228" y="222" width="24" height="26" rx="8" fill="#5B4FCF"/>
+        <circle cx="280" cy="206" r="12" fill="#E8B48C"/><rect x="268" y="218" width="24" height="26" rx="8" fill="#0F6E56"/>
+        <circle cx="340" cy="204" r="14" fill="#F3C9A8"/><rect x="326" y="218" width="28" height="28" rx="9" fill="#A04223"/>
+        <circle cx="400" cy="206" r="12" fill="#FCE3C9"/><rect x="388" y="218" width="24" height="26" rx="8" fill="#1D5FA0"/>
+        <circle cx="440" cy="210" r="12" fill="#E8B48C"/><rect x="428" y="222" width="24" height="26" rx="8" fill="#8C2F54"/>
+      </g>
+      <!-- texto cierre -->
+      <text x="340" y="252" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="14" fill="#EBF1DD" opacity=".9">cinco desconocidos → un equipo que se conoce de verdad</text>
+    </svg>`,
+    postits:[
+      {color:"green",rot:"-3deg",emoji:"🌱",text:"La pausa sigue creciendo"},
+      {color:"yellow",rot:"2deg",emoji:"🤝",text:"El prototipo fue el equipo"},
+      {color:"blue",rot:"-2deg",emoji:"🧠",text:"Escucha colectiva > brillantez individual"},
+      {color:"pink",rot:"4deg",emoji:"💪",text:"Detenerse = inteligencia"},
+      {color:"lime",rot:"-3deg",emoji:"🎓",text:"Design Thinking de verdad"},
+    ],
+    body:`<p>Empezamos como cinco desconocidos que no sabían ni cómo presentarse. Terminamos como un equipo que había diseñado, probado y ajustado una solución real a un problema real.</p>
+<p>El Design Thinking nos enseñó que las mejores soluciones no nacen de la brillantez individual, sino de <strong>la escucha colectiva</strong>. Que el fracaso de la primera sesión desordenada era parte del proceso.</p>
+<p>Minutos de Bienestar UC busca <strong>sembrar una cultura diferente</strong>: una universidad donde detenerse no sea una señal de debilidad, sino un acto de inteligencia.</p>`,
+    quote:null,
+    note:`Nuestra conclusión: el mayor prototipo que construimos no fue la secuencia de ejercicios — fue el equipo mismo.`
+  }
+];
+
+/* ---- RENDER ---- */
+const trailEl = document.getElementById('trailbar');
+const stopsEl = document.getElementById('stops');
+
+stages.forEach((s, i) => {
+  const step = document.createElement('button');
+  step.className = `tstep ${s.color}`;
+  step.innerHTML = `<span class="dot"></span>${s.icon} ${s.tag}`;
+  step.onclick = () => document.getElementById('stop-'+i).scrollIntoView({behavior:'smooth',block:'start'});
+  trailEl.appendChild(step);
+  if(i < stages.length-1){
+    const c = document.createElement('div'); c.className='tconn'; trailEl.appendChild(c);
+  }
+
+  const postitsHTML = (s.postits||[]).map(p =>
+    `<div class="postit ${p.color}" style="--rot:${p.rot}">
+      <span class="postit-emoji">${p.emoji}</span>${p.text}
+    </div>`
+  ).join('');
+
+  const stop = document.createElement('div');
+  stop.className = `stop ${s.color}`;
+  stop.id = 'stop-'+i;
+  stop.innerHTML = `
+    <div class="stop-marker">${s.icon}</div>
+    <div class="stop-inner">
+      <div class="stop-eyebrow">
+        <span class="stop-num">${s.num}</span>
+        <span class="stop-tag">${s.tag}</span>
+      </div>
+      <div class="stop-title">${s.title}</div>
+      <div class="sketch-area"><div class="sketch-card">${s.sketch}</div></div>
+      ${postitsHTML ? `<div class="postit-cluster">${postitsHTML}</div>` : ''}
+      <div class="stop-body">${s.body}</div>
+      ${s.quote ? `<div class="blockquote">${s.quote}</div>` : ''}
+      <div class="margin-note">
+        <span class="label">Lo que aprendimos</span>${s.note}
+      </div>
+    </div>
+  `;
+  stopsEl.appendChild(stop);
+});
+
+/* ---- OBSERVERS ---- */
+const stopEls = [...document.querySelectorAll('.stop')];
+const stepEls = [...document.querySelectorAll('.tstep')];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {threshold:.1});
+stopEls.forEach(el => io.observe(el));
+
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    const i = stopEls.indexOf(e.target);
+    if(e.isIntersecting){
+      stepEls.forEach(b => b.classList.remove('active'));
+      stepEls[i].classList.add('active');
+      stepEls[i].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+    }
+  });
+}, {threshold:0, rootMargin:"-45% 0px -45% 0px"});
+stopEls.forEach(el => spy.observe(el));
+
+const ccIo = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {threshold:.25});
+ccIo.observe(document.getElementById('closing-card'));
+</script>
+</body>
+</html>
